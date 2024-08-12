@@ -1,0 +1,1798 @@
+{
+	"info": {
+		"_postman_id": "5dddeebd-011e-4065-994b-2ed7237b18be",
+		"name": "Check all endopoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37274806"
+	},
+	"item": [
+		{
+			"name": "Create user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"let userid;",
+							"",
+							"const responseBody = pm.response.json();",
+							"userid = responseBody._id;",
+							"",
+							"",
+							"pm.collectionVariables.set(\"userid\", userid);",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"username\",\n    \"password\" : \"123456789\",\n    \"email\": \"user@gmail.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiURL}}/users",
+					"host": [
+						"{{apiURL}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"let token;",
+							"",
+							"const responseBody = pm.response.json();",
+							"token = responseBody.access_token;",
+							"",
+							"",
+							"pm.collectionVariables.set(\"token\", token);",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"username\",\n    \"password\" : \"123456789\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiURL}}/auth/login",
+					"host": [
+						"{{apiURL}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{apiURL}}/users/{{userid}}",
+					"host": [
+						"{{apiURL}}"
+					],
+					"path": [
+						"users",
+						"{{userid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update username",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"newUsername\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiURL}}/users/{{userid}}/username",
+					"host": [
+						"{{apiURL}}"
+					],
+					"path": [
+						"users",
+						"{{userid}}",
+						"username"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update email",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"newEmail@gmai.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiURL}}/users/{{userid}}/email",
+					"host": [
+						"{{apiURL}}"
+					],
+					"path": [
+						"users",
+						"{{userid}}",
+						"email"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create map",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"let mapid;",
+							"",
+							"const responseBody = pm.response.json();",
+							"mapid = responseBody[0]._id;",
+							"",
+							"",
+							"pm.collectionVariables.set(\"mapid\", mapid);",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"map1\",\n    \"dimensions\": {\n        \"width\": 3,\n        \"height\": 3\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiURL}}/maps/{{userid}}",
+					"host": [
+						"{{apiURL}}"
+					],
+					"path": [
+						"maps",
+						"{{userid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get maps",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiURL}}/maps/{{userid}}",
+					"host": [
+						"{{apiURL}}"
+					],
+					"path": [
+						"maps",
+						"{{userid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get map by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiURL}}/maps/{{userid}}/id/{{mapid}}",
+					"host": [
+						"{{apiURL}}"
+					],
+					"path": [
+						"maps",
+						"{{userid}}",
+						"id",
+						"{{mapid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"New Map\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiURL}}/maps/{{userid}}/id/{{mapid}}/name",
+					"host": [
+						"{{apiURL}}"
+					],
+					"path": [
+						"maps",
+						"{{userid}}",
+						"id",
+						"{{mapid}}",
+						"name"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update dimensions",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"dimensions\": {\n        \"width\": 120,\n        \"height\": 120\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiURL}}/maps/{{userid}}/id/{{mapid}}/dimensions",
+					"host": [
+						"{{apiURL}}"
+					],
+					"path": [
+						"maps",
+						"{{userid}}",
+						"id",
+						"{{mapid}}",
+						"dimensions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create route",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"let routeid;",
+							"",
+							"const responseBody = pm.response.json();",
+							"routeid = responseBody.routes[0]._id;",
+							"",
+							"",
+							"pm.collectionVariables.set(\"routeid\", routeid);",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"start\": {\n        \"x\": 1,\n        \"y\": 1\n    },\n    \"end\": {\n        \"x\": 3,\n        \"y\": 3\n    },\n    \"distance\": 3\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiURL}}/routes/{{userid}}/id/{{mapid}}",
+					"host": [
+						"{{apiURL}}"
+					],
+					"path": [
+						"routes",
+						"{{userid}}",
+						"id",
+						"{{mapid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get routes by map ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiURL}}/routes/{{userid}}/id/{{mapid}}",
+					"host": [
+						"{{apiURL}}"
+					],
+					"path": [
+						"routes",
+						"{{userid}}",
+						"id",
+						"{{mapid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Optimal Path",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiURL}}/routes/{{userid}}/id/{{mapid}}/mapid/{{routeid}}/optimal-path",
+					"host": [
+						"{{apiURL}}"
+					],
+					"path": [
+						"routes",
+						"{{userid}}",
+						"id",
+						"{{mapid}}",
+						"mapid",
+						"{{routeid}}",
+						"optimal-path"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get route by route ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiURL}}/routes/{{userid}}/id/{{mapid}}/mapid/{{routeid}}",
+					"host": [
+						"{{apiURL}}"
+					],
+					"path": [
+						"routes",
+						"{{userid}}",
+						"id",
+						"{{mapid}}",
+						"mapid",
+						"{{routeid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update start point in route",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"start\": {\n        \"x\": 11,\n        \"y\": 11\n    }\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiURL}}/routes/{{userid}}/id/{{mapid}}/mapid/{{routeid}}/start",
+					"host": [
+						"{{apiURL}}"
+					],
+					"path": [
+						"routes",
+						"{{userid}}",
+						"id",
+						"{{mapid}}",
+						"mapid",
+						"{{routeid}}",
+						"start"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update end point in route",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"end\": {\n        \"x\": 101,\n        \"y\": 101\n    }\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiURL}}/routes/{{userid}}/id/{{mapid}}/mapid/{{routeid}}/end",
+					"host": [
+						"{{apiURL}}"
+					],
+					"path": [
+						"routes",
+						"{{userid}}",
+						"id",
+						"{{mapid}}",
+						"mapid",
+						"{{routeid}}",
+						"end"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update distance route",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"distance\": 77\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiURL}}/routes/{{userid}}/id/{{mapid}}/mapid/{{routeid}}/distance",
+					"host": [
+						"{{apiURL}}"
+					],
+					"path": [
+						"routes",
+						"{{userid}}",
+						"id",
+						"{{mapid}}",
+						"mapid",
+						"{{routeid}}",
+						"distance"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create obstacle",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"let obstacleid;",
+							"",
+							"const responseBody = pm.response.json();",
+							"obstacleid = responseBody[0]._id;",
+							"",
+							"",
+							"pm.collectionVariables.set(\"obstacleid\", obstacleid);",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"position\": {\n        \"x\": 2,\n        \"y\": 2\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiURL}}/obstacles/{{userid}}/id/{{mapid}}",
+					"host": [
+						"{{apiURL}}"
+					],
+					"path": [
+						"obstacles",
+						"{{userid}}",
+						"id",
+						"{{mapid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get obstacles by map ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"position\": {\n        \"x\": 10,\n        \"y\": 10\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiURL}}/obstacles/{{userid}}/id/{{mapid}}",
+					"host": [
+						"{{apiURL}}"
+					],
+					"path": [
+						"obstacles",
+						"{{userid}}",
+						"id",
+						"{{mapid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get obstacle by obstacle ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"position\": {\n        \"x\": 10,\n        \"y\": 10\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiURL}}/obstacles/{{userid}}/id/{{mapid}}/mapid/{{obstacleid}}",
+					"host": [
+						"{{apiURL}}"
+					],
+					"path": [
+						"obstacles",
+						"{{userid}}",
+						"id",
+						"{{mapid}}",
+						"mapid",
+						"{{obstacleid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update obstacle",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\n        \"x\": 30,\n        \"y\": 20\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiURL}}/obstacles/{{userid}}/id/{{mapid}}/mapid/{{obstacleid}}",
+					"host": [
+						"{{apiURL}}"
+					],
+					"path": [
+						"obstacles",
+						"{{userid}}",
+						"id",
+						"{{mapid}}",
+						"mapid",
+						"{{obstacleid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create waypoint",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"let waypointid;",
+							"",
+							"const responseBody = pm.response.json();",
+							"waypointid = responseBody[0]._id;",
+							"",
+							"",
+							"pm.collectionVariables.set(\"waypointid\", waypointid);",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"position\": {\n        \"x\": 1,\n        \"y\": 2\n    },\n    \"name\": \"Waypoint 1\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiURL}}/waypoints/{{userid}}/id/{{mapid}}",
+					"host": [
+						"{{apiURL}}"
+					],
+					"path": [
+						"waypoints",
+						"{{userid}}",
+						"id",
+						"{{mapid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get waypoints",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiURL}}/waypoints/{{userid}}/id/{{mapid}}",
+					"host": [
+						"{{apiURL}}"
+					],
+					"path": [
+						"waypoints",
+						"{{userid}}",
+						"id",
+						"{{mapid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get waypoint by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiURL}}/waypoints/{{userid}}/id/{{mapid}}/mapid/{{waypointid}}",
+					"host": [
+						"{{apiURL}}"
+					],
+					"path": [
+						"waypoints",
+						"{{userid}}",
+						"id",
+						"{{mapid}}",
+						"mapid",
+						"{{waypointid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update waypoint name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"newName of Waypoint\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiURL}}/waypoints/{{userid}}/id/{{mapid}}/mapid/{{waypointid}}/name",
+					"host": [
+						"{{apiURL}}"
+					],
+					"path": [
+						"waypoints",
+						"{{userid}}",
+						"id",
+						"{{mapid}}",
+						"mapid",
+						"{{waypointid}}",
+						"name"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update waypoint position Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"position\": {\n            \"x\": 70,\n            \"y\": 71\n        }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiURL}}/waypoints/{{userid}}/id/{{mapid}}/mapid/{{waypointid}}/position",
+					"host": [
+						"{{apiURL}}"
+					],
+					"path": [
+						"waypoints",
+						"{{userid}}",
+						"id",
+						"{{mapid}}",
+						"mapid",
+						"{{waypointid}}",
+						"position"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete waypoint",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiURL}}/waypoints/{{userid}}/id/{{mapid}}/mapid/{{waypointid}}",
+					"host": [
+						"{{apiURL}}"
+					],
+					"path": [
+						"waypoints",
+						"{{userid}}",
+						"id",
+						"{{mapid}}",
+						"mapid",
+						"{{waypointid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete obstacle",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"position\": {\n        \"x\": 10,\n        \"y\": 10\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiURL}}/obstacles/{{userid}}/id/{{mapid}}/mapid/{{obstacleid}}",
+					"host": [
+						"{{apiURL}}"
+					],
+					"path": [
+						"obstacles",
+						"{{userid}}",
+						"id",
+						"{{mapid}}",
+						"mapid",
+						"{{obstacleid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete route",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiURL}}/routes/{{userid}}/id/{{mapid}}/mapid/{{routeid}}",
+					"host": [
+						"{{apiURL}}"
+					],
+					"path": [
+						"routes",
+						"{{userid}}",
+						"id",
+						"{{mapid}}",
+						"mapid",
+						"{{routeid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete map",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"dimensions\": {\n        \"width\": 500,\n        \"height\": 300\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiURL}}/maps/{{userid}}/id/{{mapid}}",
+					"host": [
+						"{{apiURL}}"
+					],
+					"path": [
+						"maps",
+						"{{userid}}",
+						"id",
+						"{{mapid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{apiURL}}/users/{{userid}}",
+					"host": [
+						"{{apiURL}}"
+					],
+					"path": [
+						"users",
+						"{{userid}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "apiURL",
+			"value": "http://localhost:3000/api/v1",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "userid",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "mapid",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "routeid",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "obstacleid",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "waypointid",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
